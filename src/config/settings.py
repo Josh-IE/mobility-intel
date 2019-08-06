@@ -12,6 +12,19 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 import os
 
+def get_environment_variable(var_name, default_value=None):
+    value = os.getenv(var_name, default_value)
+    if value is None:
+        error_msg = "Set the {0} environment variable".format(var_name)
+        raise ImproperlyConfigured(error_msg)
+    return value
+
+def get_list_env_value(environment_value, separator=":", default_value=None):
+    raw_value = get_environment_variable(
+        environment_value, default_value=default_value
+    )
+    return [item for item in raw_value.split(separator) if item != ""]
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -25,7 +38,7 @@ SECRET_KEY = "vy%s)1p)-&s0f=s!uw6m-2=#0xxdjksmey*rzqlhktdd$ym!!a"
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -121,6 +134,8 @@ USE_TZ = True
 
 STATIC_URL = "/static/"
 
-CORS_ORIGIN_WHITELIST = ["http://localhost:3000"]
+CORS_ORIGIN_WHITELIST = get_list_env_value(
+    "CORS_ORIGIN_WHITELIST", separator=" ", default_value="http://localhost:3000"
+)
 
 PATH_TO_TERRITORY = "api/utils/berlin.geojson"

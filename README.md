@@ -49,11 +49,11 @@ The api app at `/api/v1/` exposes one endpoint.
 
 ```json
     {
-        'booking_distance_bins': {
-            'From 0->1km': 2
-        }
-        'most_popular_dropoff_points': {geojson}
-        'most_popular_pickup_points': {geojson}
+        "booking_distance_bins": {
+            "From 0->1km": 2
+        },
+        "most_popular_dropoff_points": "{geojson}",
+        "most_popular_pickup_points": "{geojson}"
     }
 ```
 
@@ -128,7 +128,7 @@ You may use 2 separate terminals in local environment setup. One for running Dja
 - clone the repository
 
   ```bash
-  git clone https://github.com/Josh-IE/mobility-intelligence.git
+  git clone https://github.com/Josh-IE/mobility-intel.git
   ```
 
 - cd into the repository root
@@ -170,11 +170,12 @@ You may use 2 separate terminals in local environment setup. One for running Dja
   npm install
   ```
 
-- set environment variables (.env)
+- set environment variables
 
   ```bash
     export REACT_APP_MapboxAccessToken=
     export REACT_APP_API_URL=http://127.0.0.1:8000/api/v1
+    export CORS_ORIGIN_WHITELIST=http://127.0.0.1:8000
   ```
 
 - start development server
@@ -184,6 +185,35 @@ You may use 2 separate terminals in local environment setup. One for running Dja
   ```
 
 The React.js web app and Django Api app should now be available at http://localhost:3000 and http://localhost:8000/api/v1 respectively.
+
+## Docker
+
+- clone the repository
+
+  ```bash
+  git clone https://github.com/Josh-IE/mobility-intel.git
+  ```
+
+- cd into the repository root
+
+  ```bash
+  cd mobility-intel
+  ```
+
+- set environment variables
+  ```bash
+    export REACT_APP_MapboxAccessToken={sent to mail}
+    export REACT_APP_API_URL=http://{machine_ip}:8011/api/v1
+    export CORS_ORIGIN_WHITELIST=http://{machine_ip}:81
+  ```
+
+- start services
+
+  ```bash
+  docker-compose up
+  ```
+
+The React.js web app and Django Api app should now be available at http://{machine_ip}:81 and http://{machine_ip}:8011/api/v1 respectively.
 
 ## Tests
 
